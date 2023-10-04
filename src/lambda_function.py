@@ -21,20 +21,26 @@ async def read_png(farmid: int, index: str):
 
     objects = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=f'{farmid}_')
 
+    print(objects)
+
     fig, axs = plt.subplots(len(objects['Contents']), 1, figsize=(10, len(objects['Contents']) * 5))
 
     for i, obj in enumerate(objects['Contents']):
+
+        print("Inside for loop")
 
         key = obj["Key"]
         date = key.split("/")[1].split("_")[0]
 
         s3_object = s3_client.get_object(Bucket=bucket_name, Key=key)
-        file_byte_string = s3_objects['Body'].read()
+        file_byte_string = s3_object['Body'].read()
 
         img = plt.imread(BytesIO(file_byte_string))
         axs[i].imshow(img)
         axs[i].set_title(date)
         axs[i].axis("off")
+
+    print("Finished for loop execution")
 
     buf = BytesIO()
     plt.savefig(buf, format='.png')
