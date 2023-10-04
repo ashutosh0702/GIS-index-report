@@ -23,8 +23,18 @@ async def read_png(farmid: int, index: str):
     objects = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=f'{farmid}_')
 
     print(objects)
+    num_images = len(objects['Contents'])
 
-    fig, axs = plt.subplots(len(objects['Contents']), 1, figsize=(10, len(objects['Contents']) * 5))
+    cols = min(num_images,5)
+    rows = (num_images + 4) // 5
+
+    fig, axs = plt.subplots(rows,cols, figsize=(cols*5, rows * 5))
+
+    if rows > 1:
+        axs = [ax for sublist in axs for ax in sublist]
+
+    elif rows==1:
+        axs = [axs[i] for i in range(cols)]
 
     for i, obj in enumerate(objects['Contents']):
 
@@ -40,6 +50,11 @@ async def read_png(farmid: int, index: str):
         axs[i].imshow(img)
         axs[i].set_title(date)
         axs[i].axis("off")
+    
+    if num_images%5 != 0:
+
+        for j in range(num_images, rows*5):
+            axs[j].axis("off")
 
     print("Finished for loop execution")
 
