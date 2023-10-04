@@ -3,7 +3,7 @@ from mangum import Mangum
 import boto3
 import matplotlib.pyplot as plt
 from io import BytesIO
-from fastapi.response import StreamingResponse
+
 
 app = FastAPI()
 handler = Mangum(app)
