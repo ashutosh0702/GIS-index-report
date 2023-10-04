@@ -53,12 +53,18 @@ async def read_png(farmid: int, index: str):
         axs[i].set_title(date)
         axs[i].axis("off")
     
-    if num_images%5 != 0:
-
-        for j in range(num_images, rows*5):
-            axs[j].axis("off")
-
     print("Finished for loop execution")
+
+    try:
+        print("Before if-else block")
+        if num_images%5 != 0:
+
+            for j in range(num_images, rows*5):
+                print(f"Turning off axis for subplot{j}")
+                axs[j].axis("off")
+        print("After if-else block")
+    except Exception as e:
+        print(e) 
 
     buf = BytesIO()
     plt.savefig(buf, format='png')
