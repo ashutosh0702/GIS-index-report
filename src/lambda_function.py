@@ -43,7 +43,7 @@ async def read_png(farmid: int, index: str):
     print("Finished for loop execution")
 
     buf = BytesIO()
-    plt.savefig(buf, format='.png')
+    plt.savefig(buf, format='png')
     buf.seek(0)
 
     return StreamingResponse(buf, media_type="image/png")
