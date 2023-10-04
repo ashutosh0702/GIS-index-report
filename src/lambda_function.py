@@ -70,10 +70,10 @@ async def read_png(farmid: int, index: str):
         print(e) 
 
     if filtered_objects:
-        fig.suptitle(f"Temporal {index} for {farm_name}", fontsize=16)
+        fig.suptitle(f"Temporal {index} for {farm_name}", fontsize=18)
 
     buf = BytesIO()
-    plt.savefig(buf, format='png',dpi=200, bbox_inches='tight', pad_inches=0)
+    plt.savefig(buf, format='png')
     buf.seek(0)
 
     return StreamingResponse(buf, media_type="image/png")
