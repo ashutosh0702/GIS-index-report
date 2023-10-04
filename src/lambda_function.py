@@ -3,17 +3,18 @@ from mangum import Mangum
 import boto3
 import matplotlib.pyplot as plt
 from io import BytesIO
+from fastapi.response import StreamingResponse
 
 app = FastAPI()
 handler = Mangum(app)
 
 s3_client = boto3.client('s3', region_name='us-west-2')
 
-@app.get("/")
+@app.get("/report")
 def read_root():
    return {"Welcome to": "My first FastAPI depolyment using Docker image"}
 
-@app.get("/{farmid}/{index}")
+@app.get("/report/{farmid}/{index}")
 async def read_png(farmid: int, index: str):
 
     bucket_name = "gis-colourized-png-data"
