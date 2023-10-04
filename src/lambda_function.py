@@ -5,8 +5,13 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 
 app = FastAPI()
+handler = Mangum(app)
 
 s3_client = boto3.client('s3', region_name='us-west-2')
+
+@app.get("/")
+def read_root():
+   return {"Welcome to": "My first FastAPI depolyment using Docker image"}
 
 @app.get("/{farmid}/{index}")
 async def read_png(farmid: int, index: str):
@@ -36,4 +41,5 @@ async def read_png(farmid: int, index: str):
 
     return StreamingResponse(buf, media_type="image/png")
 
-handler = Mangum(app)
+if __name__ == "__main__":
+   uvicorn.run(app, host="0.0.0.0", port=8080)
