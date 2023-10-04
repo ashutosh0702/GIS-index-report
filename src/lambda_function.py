@@ -27,6 +27,9 @@ async def read_png(farmid: int, index: str):
     print(objects)
     num_images = len(filtered_objects)
 
+    if filtered_objects:
+        farm_name = filtered_objects[0]["Key"].split("/")[0].split("_")[1]
+
     cols = min(num_images,5)
     rows = (num_images + 4) // 5
 
@@ -66,8 +69,11 @@ async def read_png(farmid: int, index: str):
     except Exception as e:
         print(e) 
 
+    if filtered_objects:
+        fig.suptitle(f"Temporal {index} for {farm_name}", fontsize=16)
+
     buf = BytesIO()
-    plt.savefig(buf, format='png')
+    plt.savefig(buf, format='png',dpi=200, bbox_inches='tight', pad_inches=0)
     buf.seek(0)
 
     return StreamingResponse(buf, media_type="image/png")
