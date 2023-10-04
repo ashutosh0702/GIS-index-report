@@ -22,8 +22,10 @@ async def read_png(farmid: int, index: str):
 
     objects = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=f'{farmid}_')
 
+    filtered_objects = [obj for obj in objects['Contents'] if obj["Key"].endswith(f"_{index}.png")]
+
     print(objects)
-    num_images = len(objects['Contents'])
+    num_images = len(filtered_objects)
 
     cols = min(num_images,5)
     rows = (num_images + 4) // 5
@@ -36,7 +38,7 @@ async def read_png(farmid: int, index: str):
     elif rows==1:
         axs = [axs[i] for i in range(cols)]
 
-    for i, obj in enumerate(objects['Contents']):
+    for i, obj in enumerate(filtered_objects):
 
         print("Inside for loop")
 
