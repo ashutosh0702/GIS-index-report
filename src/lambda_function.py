@@ -28,7 +28,7 @@ async def read_png(farmid: int, index: str):
     num_images = len(filtered_objects)
 
     if filtered_objects:
-        farm_name = filtered_objects[0]["Key"].split("/")[0].split("_")[1]
+        farm_name = filtered_objects[0]["Key"].split("/")[0].split("_")[1:]
 
     cols = min(num_images,5)
     rows = (num_images + 4) // 5
