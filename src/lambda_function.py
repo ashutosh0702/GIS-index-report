@@ -30,8 +30,18 @@ async def read_png(farmid: int, index: str):
     if filtered_objects:
         farm_name = filtered_objects[0]["Key"].split("/")[0].split("_")[1:]
 
+    A4_WIDTH = 8.27
+    A4_HEIGHT = 11.69
+    SUBPLOT_WIDTH = A4_WIDTH / 5
+    SUBPLOT_HEIGHT = 2.5
+
     cols = min(num_images,5)
     rows = (num_images + 4) // 5
+
+    fig_width = cols * SUBPLOT_WIDTH
+    fig_height = rows * SUBPLOT_HEIGHT
+
+    fig_height = min(fig_height, A4_HEIGHT)
 
     fig, axs = plt.subplots(rows,cols, figsize=(cols * 5, rows * 5))
 
@@ -71,6 +81,10 @@ async def read_png(farmid: int, index: str):
 
     if filtered_objects:
         fig.suptitle(f"Temporal {index} for {farm_name}", fontsize=18)
+
+    fig.tight_layout()
+    fig.subplots_adjust(top=0.95)
+
 
     buf = BytesIO()
     plt.savefig(buf, format='png')
