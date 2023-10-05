@@ -33,7 +33,7 @@ async def read_png(farmid: int, index: str):
     cols = min(num_images,5)
     rows = (num_images + 4) // 5
 
-    fig, axs = plt.subplots(rows,cols, figsize=(20, 15))
+    fig, axs = plt.subplots(rows,cols, figsize=(cols * 5, rows * 5))
 
     if rows > 1:
         axs = [ax for sublist in axs for ax in sublist]
